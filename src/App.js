@@ -3,58 +3,93 @@ import Banner from './componentes/Banner/index.js';
 import Formulario from './componentes/Formulario/index.js';
 import Time from './componentes/Time/index.js';
 import Rodape from './componentes/Rodape/index.js';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 
-  const times = [
+  const [times, setTimes] = useState([
     {
+      id: uuidv4(),
       nome: 'Programação',
-      corPrimaria: '#57C278',
-      corSegundaria: '#D9F7E9',
+      cor: '#57C278',
+
     },
     {
+      id: uuidv4(),
       nome: 'Front-End',
-      corPrimaria: '#82CFFA',
-      corSegundaria: '#E8F8FF',
+      cor: '#82CFFA',
+
     },
     ,
     {
+      id: uuidv4(),
       nome: 'Data Science',
-      corPrimaria: '#A6D157',
-      corSegundaria: '#F0F8E2',
+      cor: '#A6D157',
+
     },
     {
+      id: uuidv4(),
       nome: 'Devops',
-      corPrimaria: '#A6D157',
-      corSegundaria: '#F0F8E2',
+      cor: '#A6D157',
+
+    }
+  ])
+
+
+  const inicial = [
+    {
+      id: uuidv4(),
+      nome: 'JULIANA AMOASEI',
+      cargo: 'Desenvolvedora de software e instrutora',
+      imagem: 'https://www.alura.com.br/assets/img/lideres/juliana-amoasei.1647533644.jpeg',
+      time: times[0].nome
+    },
+    {
+      id: uuidv4(),
+      nome: 'DANIEL ARTINE',
+      cargo: 'Engenheiro de Software na Stone Age',
+      imagem: 'https://www.alura.com.br/assets/img/lideres/daniel-artine.1647533644.jpeg',
+      time: times[0].nome
     }
   ]
-  const [colaboradores, setColaboradores] = useState([])
+
+  const [colaboradores, setColaboradores] = useState(inicial)
 
   const aoColaboradorAdicionado = (colaborador) => {
     console.log("Colaborador add =>", colaborador)
     setColaboradores([...colaboradores, colaborador])
   }
 
-  function deletarColaborador() {
-    console.log('Deletar colaborador')
+  function deletarColaborador(id) {
+    console.log('Deletar colaborador : ', id)
+    setColaboradores(colaboradores.filter(colaborador => colaborador.id !== id))
+  }
+
+  function mudarCorTime(cor, id) {
+    setTimes(times.map(time => {
+      if (time.id === id) {
+        time.cor = cor
+      }
+      return time;
+    }))
   }
 
   return (
     <div className="App">
       <Banner />
       <Formulario times={times.map(time => time.nome)} aoColaboradorCadastrado={colaborador => aoColaboradorAdicionado(colaborador)} />
-
-      {times.map(time =>
+      <h1 className='organizacao'> Minha Organização</h1>
+      {times.map((time, indice) =>
         <Time
-          key={time.nome}
+          id={time.id}
+          mudarCorTime={mudarCorTime}
+          key={indice}
           nome={time.nome}
-          corPrimaria={time.corPrimaria}
-          corSegundaria={time.corSegundaria}
+          cor={time.cor}
           colaboradores={colaboradores.filter(colaborador => colaborador.time === time.nome)}
-          aoDeletar={deletarColaborador()}
+          aoDeletar={deletarColaborador}
         />)
-        }
+      }
       <Rodape />
     </div>
   );

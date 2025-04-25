@@ -1,6 +1,6 @@
 import { use, useState } from "react";
 import Botao from "../Botao";
-import CampoTexto from "../CampoTexto"
+import CampoTexto from "../Campo"
 import ListaSuspensa from "../ListaSuspensa";
 import "./Formulario.css"
 
@@ -10,6 +10,8 @@ const Formulario = (props) => {
     const [cargo, setCargo] = useState('')
     const [imagem, setImagem] = useState('')
     const [time, setTime] = useState('')
+    const [cor, setCor] = useState('')
+
 
     const onSalvar = (evento) => {
         evento.preventDefault()
@@ -54,6 +56,28 @@ const Formulario = (props) => {
                     aoAlterado={valor => setTime(valor)}
                 />
                 <Botao>Criar Card
+                </Botao>
+
+            </form>
+
+            <form onSubmit={onSalvar}>
+                <h2>Preencher Dados para criar novo Time</h2>
+                <CampoTexto
+                    obrigatorio={true}
+                    label="Nome"
+                    placeholder="Digite seu nome"
+                    value={nome}
+                    aoAlterado={valor => setNome(valor)}
+                />
+                <CampoTexto
+                    obrigatorio={true}
+                    label="Cor"
+                    placeholder="Digite o nome da cor"
+                    value={cargo}
+                    aoAlterado={valor => setCor(valor)}
+                />
+
+                <Botao>Criar Time
                 </Botao>
 
             </form>
