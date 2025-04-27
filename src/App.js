@@ -10,24 +10,28 @@ function App() {
   const [times, setTimes] = useState([
     {
       id: uuidv4(),
+      favorito: false,
       nome: 'Programação',
       cor: '#57C278',
 
     },
     {
       id: uuidv4(),
+      favorito: false,
       nome: 'Front-End',
       cor: '#82CFFA',
 
     },
     {
       id: uuidv4(),
+      favorito: false,
       nome: 'Data Science',
       cor: '#A6D157',
 
     },
     {
       id: uuidv4(),
+      favorito: false,
       nome: 'Devops',
       cor: '#A6D157',
 
@@ -74,6 +78,13 @@ function App() {
     setTimes([...times, { ...novoTime, id: uuidv4() }])
   }
 
+  function favoritarColaborador(id) {
+    setColaboradores(colaboradores.map(colaborador => {
+      if (colaborador.id === id) colaborador.favorito = !colaborador.favorito;
+      return colaborador
+    }))
+  }
+
   return (
     <div className="App">
       <Banner />
@@ -84,6 +95,7 @@ function App() {
       <h1 className='organizacao'> Minha Organização</h1>
       {times.map((time, indice) =>
         <Time
+          aoFavoritar={favoritarColaborador}
           time={time}
           mudarCorTime={mudarCorTime}
           key={indice}
