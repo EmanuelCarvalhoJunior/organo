@@ -20,7 +20,6 @@ function App() {
       cor: '#82CFFA',
 
     },
-    ,
     {
       id: uuidv4(),
       nome: 'Data Science',
@@ -66,26 +65,28 @@ function App() {
   }
 
   function mudarCorTime(cor, id) {
-    setTimes(times.map(time => {
-      if (time.id === id) {
-        time.cor = cor
-      }
-      return time;
-    }))
+    setTimes(times.map(time => (
+      time.id === id ? { ...time, cor: cor } : time
+    )));
+  }
+
+  function cadastrarTime(novoTime) {
+    setTimes([...times, { ...novoTime, id: uuidv4() }])
   }
 
   return (
     <div className="App">
       <Banner />
-      <Formulario times={times.map(time => time.nome)} aoColaboradorCadastrado={colaborador => aoColaboradorAdicionado(colaborador)} />
+      <Formulario
+        cadastrarTime={cadastrarTime}
+        times={times.map(time => time.nome)}
+        aoColaboradorCadastrado={colaborador => aoColaboradorAdicionado(colaborador)} />
       <h1 className='organizacao'> Minha Organização</h1>
       {times.map((time, indice) =>
         <Time
-          id={time.id}
+          time={time}
           mudarCorTime={mudarCorTime}
           key={indice}
-          nome={time.nome}
-          cor={time.cor}
           colaboradores={colaboradores.filter(colaborador => colaborador.time === time.nome)}
           aoDeletar={deletarColaborador}
         />)
